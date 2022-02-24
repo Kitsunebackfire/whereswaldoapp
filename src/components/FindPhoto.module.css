@@ -1,0 +1,12 @@
+.backgroundImage {
+  width: 1805px;
+  height: 1170px;
+  border: 1px solid green;
+  float: left;
+  cursor: pointer;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}

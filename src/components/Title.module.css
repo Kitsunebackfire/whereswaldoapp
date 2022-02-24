@@ -1,0 +1,101 @@
+.mainContainer {
+  width: 100%;
+  min-width: 1000px;
+  height: 150px;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.leftContainer {
+  grid-column-start: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  padding-left: 2rem;
+}
+
+.timer {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-size: 4rem;
+  align-self: center;
+  text-align: center;
+}
+
+.rightContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.startBtn {
+  outline: none;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 13px 23px;
+  border: none;
+  background-color: rgb(43, 238, 25);
+  color: #ffffff;
+}
+.startBtn:hover {
+  background: rgb(117, 253, 105);
+}
+
+.startBtn:active {
+  background-color: rgb(43, 238, 25);
+}
+
+.resetBtn {
+  outline: none;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 13px 23px;
+  border: none;
+
+  background: rgb(238, 32, 25);
+  color: #ffffff;
+}
+
+.resetBtn:hover {
+  background-color: rgb(255, 105, 100);
+}
+
+.resetBtn:active {
+  background-color: rgb(238, 32, 25);
+}
+
+.bestScoresSection {
+  margin: auto;
+  width: 400px;
+}
+
+.bestScoresTitle {
+  text-align: center;
+  font-size: 1.2rem;
+  text-decoration: underline;
+}
+
+.bestScoresContainer {
+  border-radius: 5px;
+  background-color: white;
+  height: 90px;
+  margin: 2px 4px 4px 14px;
+}
+.bestScores {
+  padding-top: 6px;
+  padding-left: 15px;
+  margin-top: 1px;
+}
