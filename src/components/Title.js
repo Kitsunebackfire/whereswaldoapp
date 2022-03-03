@@ -1,5 +1,8 @@
 import React, { useEffect } from "react";
 import Styling from "./Title.module.css";
+import bagonImg from "./pokemon/bagon.jpg";
+import pikachuImg from "./pokemon/pikachu.jpg";
+import mewImg from "./pokemon/mew.jpg";
 
 const Title = (props) => {
   const {
@@ -15,6 +18,9 @@ const Title = (props) => {
     foundMew,
     gameStart,
     setGameStart,
+    coords,
+    pokemonCollection,
+    pikachu,
   } = props;
 
   // resets TimerOn to false and resets timer to 0
@@ -50,27 +56,65 @@ const Title = (props) => {
   return (
     <div className={Styling.mainContainer}>
       <div className={Styling.leftContainer}>
-        <h1 className={Styling.title}>Find the Pokemon!</h1>
-        <h3 className={Styling.findThese}>
-          {gameStart ? "Found " : "Find "}
-          {foundPikachu ? (
-            <span style={{ textDecoration: "line-through" }}>Pikachu</span>
-          ) : (
-            "Pikachu"
-          )}
-          ,{" "}
-          {foundBagon ? (
-            <span style={{ textDecoration: "line-through" }}>Bagon</span>
-          ) : (
-            "Bagon "
-          )}
-          , and{" "}
-          {foundMew ? (
-            <span style={{ textDecoration: "line-through" }}>Mew</span>
-          ) : (
-            "Mew"
-          )}
-        </h3>
+        <div className={Styling.title} onClick={() => console.log(pikachu)}>
+          Find the Pokemon!
+        </div>
+        <div className={Styling.findPokemonContainer}>
+          <div className={Styling.pokeContainer}>
+            <span className={Styling.pokeName}>Pikachu</span>
+            <img className={Styling.pokeImg} alt="pikachu" src={pikachuImg} />
+            {foundPikachu ? (
+              <span
+                style={{
+                  marginLeft: "10px",
+                  alignSelf: "center",
+                  color: "green",
+                  fontSize: "1.2rem",
+                }}
+              >
+                ✔️ Found!
+              </span>
+            ) : (
+              ""
+            )}
+          </div>
+          <div className={Styling.pokeContainer}>
+            <span className={Styling.pokeName}>Bagon</span>
+            <img className={Styling.pokeImg} alt="bagon" src={bagonImg} />
+            {foundBagon ? (
+              <span
+                style={{
+                  marginLeft: "10px",
+                  alignSelf: "center",
+                  color: "green",
+                  fontSize: "1.2rem",
+                }}
+              >
+                ✔️ Found!
+              </span>
+            ) : (
+              ""
+            )}
+          </div>
+          <div className={Styling.pokeContainer}>
+            <span className={Styling.pokeName}>Mew</span>
+            <img className={Styling.pokeImg} alt="mew" src={mewImg} />
+            {foundMew ? (
+              <span
+                style={{
+                  marginLeft: "10px",
+                  alignSelf: "center",
+                  color: "green",
+                  fontSize: "1.2rem",
+                }}
+              >
+                ✔️ Found!
+              </span>
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
       </div>
 
       <div className={Styling.timer}>
@@ -115,6 +159,7 @@ const Title = (props) => {
           <div className={Styling.bestScoresContainer}>
             <div className={Styling.bestScores}>
               {bestTimes.map((time) => {
+                // key will likely be id later from fb
                 return <div key={time}>time: {time}</div>;
               })}
             </div>
@@ -126,3 +171,31 @@ const Title = (props) => {
 };
 
 export default Title;
+
+/*<h3 className={Styling.findThese}>
+          {gameStart ? "Found " : "Find "}
+          {foundPikachu ? (
+            <span style={{ color: "green", textDecoration: "line-through" }}>
+              Pikachu
+            </span>
+          ) : (
+            "Pikachu"
+          )}
+          ,{" "}
+          {foundBagon ? (
+            <span style={{ textDecoration: "line-through" }}>Bagon</span>
+          ) : (
+            "Bagon "
+          )}
+          , and{" "}
+          {foundMew ? (
+            <div>
+              <span>Mew</span>
+              <span style={{ color: "green" }}>✔️</span>
+            </div>
+          ) : (
+            <div>
+              <span>Mew</span>
+            </div>
+          )}
+        </h3> */

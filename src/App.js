@@ -3,7 +3,8 @@ import "./App.css";
 import FindPhoto from "./components/FindPhoto";
 import Title from "./components/Title";
 import { colRef } from "./firebaseConfig";
-import { getDocs } from "firebase/firestore";
+import { collection, getDoc, getDocs, query } from "firebase/firestore";
+import { db } from "./firebaseConfig";
 
 function App() {
   // used for tracking, will be commented out later
@@ -28,25 +29,40 @@ function App() {
     setBestTimes((prevBestTimes) => [...prevBestTimes, time]);
   };
 
-  // cords before integrating firebase
-  const [pikachu] = useState({
-    xlow: 660,
-    xhigh: 730,
-    ylow: 351,
-    yhigh: 429,
-  });
-  const [bagon] = useState({
-    xlow: 1049,
-    xhigh: 1109,
-    ylow: 675,
-    yhigh: 746,
-  });
-  const [mew] = useState({
-    xlow: 827,
-    xhigh: 900,
-    ylow: 632,
-    yhigh: 694,
-  });
+  // waits for coords to load and then sets them into the coords state which then
+  // allows them to be set into the pokemon collection state via a callback
+
+  const [pikachu, setPikachu] = useState([{}]);
+  const [bagon, setBagon] = useState([{}]);
+  const [mew, setMew] = useState([{}]);
+
+  const fetchCoordinates = async (collectName) => {
+    let coordsQuery = query(collection(db, collectName));
+    const querySnapshot = await getDocs(coordsQuery);
+    const coordinates = querySnapshot.docs.map((doc) => doc.data());
+    console.log("coordinates from firebase");
+    return coordinates[0];
+  };
+
+  useEffect(() => {
+    const loadCoords = async () => {
+      try {
+        setPikachu([
+          {
+            pokemon: "pikachu",
+            coords: await fetchCoordinates("pikachu"),
+          },
+        ]);
+        setBagon([
+          { pokemon: "bagon", coords: await fetchCoordinates("bagon") },
+        ]);
+        setMew([{ pokemon: "mew", coords: await fetchCoordinates("mew") }]);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    loadCoords();
+  }, []);
 
   const resetPokemonFound = () => {
     setFoundPikachu(false);
@@ -70,12 +86,6 @@ function App() {
     }
   }, [foundPikachu, foundBagon, foundMew, timer]);
 
-  useEffect(() => {
-    getDocs(colRef).then((snapshot) => {
-      console.log(snapshot.docs);
-    });
-  }, []);
-
   return (
     <div>
       <Title
@@ -94,6 +104,7 @@ function App() {
         foundMew={foundMew}
         gameStart={gameStart}
         setGameStart={setGameStart}
+        pikachu={pikachu}
       />
       <FindPhoto
         timerOn={timerOn}
@@ -101,11 +112,8 @@ function App() {
         y={y}
         setX={setX}
         setY={setY}
-        pikachu={pikachu}
         setFoundPikachu={setFoundPikachu}
-        bagon={bagon}
         setFoundBagon={setFoundBagon}
-        mew={mew}
         setFoundMew={setFoundMew}
         gameover={gameover}
       />

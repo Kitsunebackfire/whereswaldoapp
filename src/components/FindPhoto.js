@@ -8,14 +8,17 @@ const FindPhoto = (props) => {
     timerOn,
     setX,
     setY,
-    pikachu,
+
     setFoundPikachu,
-    bagon,
+
     setFoundBagon,
-    mew,
+
     setFoundMew,
     gameover,
+    pokemonCollection,
   } = props;
+
+  /*
   useEffect((e) => {
     const update = (e) => {
       // setX and setY used for tracking pokemon position
@@ -58,7 +61,7 @@ const FindPhoto = (props) => {
 
     window.addEventListener("click", update);
     return () => window.removeEventListener("click", update);
-  });
+  });*/
 
   return (
     <div

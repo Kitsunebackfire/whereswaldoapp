@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { initializeFirestore, collection } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -17,11 +17,11 @@ const firebaseConfig = {
 };
 
 // step 1 Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const firebaseApp = initializeApp(firebaseConfig);
 
 // step 2 init services
-const db = getFirestore(app);
-
+//const db = initializeFirestore(app);
+export const db = initializeFirestore(firebaseApp, { useFetchStreams: false });
 // collection ref
 export const colRef = collection(db, "coords");
 
