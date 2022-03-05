@@ -22,8 +22,6 @@ const firebaseApp = initializeApp(firebaseConfig);
 // step 2 init services
 //const db = initializeFirestore(app);
 export const db = initializeFirestore(firebaseApp, { useFetchStreams: false });
-// collection ref
-export const colRef = collection(db, "coords");
 
 // get collection data // may have to use in main js file.
 /*

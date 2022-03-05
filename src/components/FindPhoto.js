@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Styling from "./FindPhoto.module.css";
 
 const FindPhoto = (props) => {
@@ -8,51 +8,47 @@ const FindPhoto = (props) => {
     timerOn,
     setX,
     setY,
-
     setFoundPikachu,
-
     setFoundBagon,
-
     setFoundMew,
+    pikachu,
+    bagon,
+    mew,
     gameover,
-    pokemonCollection,
   } = props;
 
-  /*
   useEffect((e) => {
     const update = (e) => {
       // setX and setY used for tracking pokemon position
       setX(e.offsetX);
       setY(e.offsetY);
       console.log(`${e.offsetX}, ${e.offsetY}`);
+
       if (gameover !== true) {
         if (
-          e.offsetX >= pikachu.xlow &&
-          e.offsetX <= pikachu.xhigh &&
-          e.offsetY >= pikachu.ylow &&
-          e.offsetY <= pikachu.yhigh
+          e.offsetX >= pikachu[0].coords.xlow &&
+          e.offsetX <= pikachu[0].coords.xhigh &&
+          e.offsetY >= pikachu[0].coords.ylow &&
+          e.offsetY <= pikachu[0].coords.yhigh
         ) {
           setFoundPikachu(true);
           // when pikachu is found, allow change in pikachu icon to disappear
-          console.log(pikachu);
         } else if (
-          e.offsetX >= bagon.xlow &&
-          e.offsetX <= bagon.xhigh &&
-          e.offsetY >= bagon.ylow &&
-          e.offsetY <= bagon.yhigh
+          e.offsetX >= bagon[0].coords.xlow &&
+          e.offsetX <= bagon[0].coords.xhigh &&
+          e.offsetY >= bagon[0].coords.ylow &&
+          e.offsetY <= bagon[0].coords.yhigh
         ) {
           setFoundBagon(true);
           // when pikachu is found, allow change in pikachu icon to disappear
-          console.log(bagon);
         } else if (
-          e.offsetX >= mew.xlow &&
-          e.offsetX <= mew.xhigh &&
-          e.offsetY >= mew.ylow &&
-          e.offsetY <= mew.yhigh
+          e.offsetX >= mew[0].coords.xlow &&
+          e.offsetX <= mew[0].coords.xhigh &&
+          e.offsetY >= mew[0].coords.ylow &&
+          e.offsetY <= mew[0].coords.yhigh
         ) {
           setFoundMew(true);
           // when pikachu is found, allow change in pikachu icon to disappear
-          console.log(mew);
         }
       } else {
         console.log("game is finished, why are you still clicking?");
@@ -61,7 +57,7 @@ const FindPhoto = (props) => {
 
     window.addEventListener("click", update);
     return () => window.removeEventListener("click", update);
-  });*/
+  });
 
   return (
     <div

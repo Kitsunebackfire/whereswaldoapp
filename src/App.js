@@ -2,9 +2,16 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import FindPhoto from "./components/FindPhoto";
 import Title from "./components/Title";
-import { colRef } from "./firebaseConfig";
-import { collection, getDoc, getDocs, query } from "firebase/firestore";
-import { db } from "./firebaseConfig";
+import {
+  collection,
+  getDoc,
+  getDocs,
+  query,
+  addDoc,
+  orderBy,
+  onSnapshot,
+} from "firebase/firestore";
+import { colRef, db } from "./firebaseConfig";
 
 function App() {
   // used for tracking, will be commented out later
@@ -21,6 +28,11 @@ function App() {
   const [timer, setTimer] = useState(0);
   const [timerOn, setTimerOn] = useState(false);
 
+  // pokemon state objects. draws coords and setState via useEffect and fetchcoordinates
+  const [pikachu, setPikachu] = useState([{}]);
+  const [bagon, setBagon] = useState([{}]);
+  const [mew, setMew] = useState([{}]);
+
   // best time storage
   const [bestTimes, setBestTimes] = useState([]);
 
@@ -28,13 +40,6 @@ function App() {
   const handleBestTimes = (time) => {
     setBestTimes((prevBestTimes) => [...prevBestTimes, time]);
   };
-
-  // waits for coords to load and then sets them into the coords state which then
-  // allows them to be set into the pokemon collection state via a callback
-
-  const [pikachu, setPikachu] = useState([{}]);
-  const [bagon, setBagon] = useState([{}]);
-  const [mew, setMew] = useState([{}]);
 
   const fetchCoordinates = async (collectName) => {
     let coordsQuery = query(collection(db, collectName));
@@ -45,6 +50,7 @@ function App() {
   };
 
   useEffect(() => {
+    getBestScores();
     const loadCoords = async () => {
       try {
         setPikachu([
@@ -70,6 +76,33 @@ function App() {
     setFoundMew(false);
   };
 
+  const pushTimeToDb = (time2push) => {
+    try {
+      let bestScoresCollection = collection(db, "bestScores");
+      addDoc(bestScoresCollection, { time: time2push });
+    } catch (error) {
+      console.log("I failed to upload to db");
+      console.log(error);
+    }
+  };
+
+  const getBestScores = () => {
+    let bestScoresCollectionRef = collection(db, "bestScores");
+    const bestScoresQuery = query(
+      bestScoresCollectionRef,
+      orderBy("time", "asc")
+    );
+
+    let thedata = onSnapshot(bestScoresQuery, (snapshot) => {
+      let timesArray = [];
+      snapshot.docs.forEach((doc) => {
+        timesArray.push({ ...doc.data(), id: doc.id });
+      });
+      return timesArray;
+    });
+    return thedata;
+  };
+
   // monitors found statuses to declare game over and sets state from false to true
   useEffect(() => {
     if (foundPikachu && foundBagon && foundMew) {
@@ -81,7 +114,10 @@ function App() {
       // setting timer to false disables the div again, fades it, and stops the timer.
       setTimerOn(false);
       const score = timer;
-      handleBestTimes(score);
+      //handleBestTimes(score);
+      //// create db push for time
+      pushTimeToDb(score);
+      ////
       console.log("gameover complete");
     }
   }, [foundPikachu, foundBagon, foundMew, timer]);
@@ -105,6 +141,9 @@ function App() {
         gameStart={gameStart}
         setGameStart={setGameStart}
         pikachu={pikachu}
+        bagon={bagon}
+        mew={mew}
+        getBestScores={getBestScores}
       />
       <FindPhoto
         timerOn={timerOn}
@@ -116,6 +155,9 @@ function App() {
         setFoundBagon={setFoundBagon}
         setFoundMew={setFoundMew}
         gameover={gameover}
+        pikachu={pikachu}
+        bagon={bagon}
+        mew={mew}
       />
     </div>
   );

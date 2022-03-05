@@ -16,11 +16,10 @@ const Title = (props) => {
     foundPikachu,
     foundBagon,
     foundMew,
-    gameStart,
     setGameStart,
-    coords,
-    pokemonCollection,
+    gameover,
     pikachu,
+    getBestScores,
   } = props;
 
   // resets TimerOn to false and resets timer to 0
@@ -56,7 +55,7 @@ const Title = (props) => {
   return (
     <div className={Styling.mainContainer}>
       <div className={Styling.leftContainer}>
-        <div className={Styling.title} onClick={() => console.log(pikachu)}>
+        <div className={Styling.title} onClick={() => console.log(timer)}>
           Find the Pokemon!
         </div>
         <div className={Styling.findPokemonContainer}>
@@ -144,7 +143,10 @@ const Title = (props) => {
       </div>
       <div className={Styling.rightContainer}>
         <div className={Styling.buttonContainer}>
-          <button className={Styling.startBtn} onClick={() => startControl()}>
+          <button
+            className={Styling.startBtn}
+            onClick={() => (gameover ? "" : startControl())}
+          >
             Start
           </button>
           <button
@@ -157,11 +159,17 @@ const Title = (props) => {
         <div className={Styling.bestScoresSection}>
           <div className={Styling.bestScoresTitle}>Best Scores</div>
           <div className={Styling.bestScoresContainer}>
-            <div className={Styling.bestScores}>
-              {bestTimes.map((time) => {
+            <div
+              onClick={() => console.log(getBestScores())}
+              className={Styling.bestScores}
+            >
+              {
+                //console.log(getBestScores)
+                //console.log(getBestScores)
+                //getBestScores.map((time) => {
                 // key will likely be id later from fb
-                return <div key={time}>time: {time}</div>;
-              })}
+                //return <div key={time.id}>time: {time.time}</div>;
+              }
             </div>
           </div>
         </div>
@@ -171,31 +179,3 @@ const Title = (props) => {
 };
 
 export default Title;
-
-/*<h3 className={Styling.findThese}>
-          {gameStart ? "Found " : "Find "}
-          {foundPikachu ? (
-            <span style={{ color: "green", textDecoration: "line-through" }}>
-              Pikachu
-            </span>
-          ) : (
-            "Pikachu"
-          )}
-          ,{" "}
-          {foundBagon ? (
-            <span style={{ textDecoration: "line-through" }}>Bagon</span>
-          ) : (
-            "Bagon "
-          )}
-          , and{" "}
-          {foundMew ? (
-            <div>
-              <span>Mew</span>
-              <span style={{ color: "green" }}>✔️</span>
-            </div>
-          ) : (
-            <div>
-              <span>Mew</span>
-            </div>
-          )}
-        </h3> */
