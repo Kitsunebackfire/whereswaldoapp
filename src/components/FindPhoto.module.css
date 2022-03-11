@@ -3,9 +3,11 @@
   height: 1170px;
   float: left;
   cursor: pointer;
+  z-index: 2;
 }
 
 img {
   width: 100%;
   height: auto;
+  z-index: 3;
 }

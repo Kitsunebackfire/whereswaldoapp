@@ -135,7 +135,8 @@
 
 .bestScoresContainer {
   border-radius: 5px;
-  background-color: white;
+  background-color: rgb(255, 225, 191);
+  border: 1px solid red;
   height: 90px;
   margin: 2px 4px 4px 14px;
 }
@@ -143,4 +144,22 @@
   padding-top: 6px;
   padding-left: 15px;
   margin-top: 1px;
+}
+
+.bestScoresRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+.username {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  text-align: center;
+}
+
+.score {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  text-align: center;
 }

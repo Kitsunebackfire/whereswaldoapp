@@ -55,7 +55,7 @@ const Title = (props) => {
   return (
     <div className={Styling.mainContainer}>
       <div className={Styling.leftContainer}>
-        <div className={Styling.title} onClick={() => console.log(timer)}>
+        <div className={Styling.title} onClick={() => console.log(bestTimes)}>
           Find the Pokemon!
         </div>
         <div className={Styling.findPokemonContainer}>
@@ -159,17 +159,31 @@ const Title = (props) => {
         <div className={Styling.bestScoresSection}>
           <div className={Styling.bestScoresTitle}>Best Scores</div>
           <div className={Styling.bestScoresContainer}>
-            <div
-              onClick={() => console.log(getBestScores())}
-              className={Styling.bestScores}
-            >
-              {
-                //console.log(getBestScores)
-                //console.log(getBestScores)
-                //getBestScores.map((time) => {
-                // key will likely be id later from fb
-                //return <div key={time.id}>time: {time.time}</div>;
-              }
+            <div className={Styling.bestScores}>
+              <div className={Styling.bestScoresRow}>
+                <div
+                  style={{ textDecoration: "underline" }}
+                  className={Styling.username}
+                >
+                  User
+                </div>
+                <div
+                  style={{ textDecoration: "underline" }}
+                  className={Styling.score}
+                >
+                  Time
+                </div>
+              </div>
+              {bestTimes.map((score) => (
+                <div className={Styling.bestScoresRow} key={score.id}>
+                  <div className={Styling.username}>{score.username}</div>
+                  <div className={Styling.score}>
+                    {("0" + Math.floor((score.time / 60000) % 60)).slice(-2)}:
+                    {("0" + Math.floor((score.time / 1000) % 60)).slice(-2)}:
+                    {("0" + ((score.time / 10) % 100)).slice(-2)}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

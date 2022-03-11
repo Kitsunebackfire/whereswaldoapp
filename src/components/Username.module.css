@@ -1,0 +1,39 @@
+.usernameContainer {
+  background-color: rgba(255, 255, 255);
+  border: 1px solid red;
+  border-radius: 9px;
+  position: absolute;
+  padding: 50px 55px 31px 55px;
+  left: 0;
+  right: 0;
+  top: 230px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 370px;
+  display: flex;
+  flex-direction: column;
+  z-index: 5;
+}
+
+.usernameInstructions {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 25px;
+}
+
+.usernameInput {
+  width: 200px;
+  align-self: center;
+  border: 1px solid black;
+  border-radius: "5px";
+}
+
+.submitBtn {
+  width: 90px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+  border-radius: 9px;
+  border: none;
+  background-color: rgb(246, 98, 128);
+}

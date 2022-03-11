@@ -2,16 +2,17 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import FindPhoto from "./components/FindPhoto";
 import Title from "./components/Title";
+import Username from "./components/Username";
 import {
   collection,
-  getDoc,
   getDocs,
   query,
   addDoc,
   orderBy,
   onSnapshot,
+  limit,
 } from "firebase/firestore";
-import { colRef, db } from "./firebaseConfig";
+import { db } from "./firebaseConfig";
 
 function App() {
   // used for tracking, will be commented out later
@@ -36,9 +37,12 @@ function App() {
   // best time storage
   const [bestTimes, setBestTimes] = useState([]);
 
-  // takes prev values in besttimes array and then adds new time taken
-  const handleBestTimes = (time) => {
-    setBestTimes((prevBestTimes) => [...prevBestTimes, time]);
+  // username state to be used in conjunction w/ best times for db storage
+  const [username, setUsername] = useState("");
+
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
+    console.log(username);
   };
 
   const fetchCoordinates = async (collectName) => {
@@ -76,10 +80,10 @@ function App() {
     setFoundMew(false);
   };
 
-  const pushTimeToDb = (time2push) => {
+  const pushTimeToDb = (time2push, user) => {
     try {
       let bestScoresCollection = collection(db, "bestScores");
-      addDoc(bestScoresCollection, { time: time2push });
+      addDoc(bestScoresCollection, { time: time2push, username: user });
     } catch (error) {
       console.log("I failed to upload to db");
       console.log(error);
@@ -90,17 +94,17 @@ function App() {
     let bestScoresCollectionRef = collection(db, "bestScores");
     const bestScoresQuery = query(
       bestScoresCollectionRef,
-      orderBy("time", "asc")
+      orderBy("time", "asc"),
+      limit(3)
     );
 
-    let thedata = onSnapshot(bestScoresQuery, (snapshot) => {
+    onSnapshot(bestScoresQuery, (snapshot) => {
       let timesArray = [];
       snapshot.docs.forEach((doc) => {
         timesArray.push({ ...doc.data(), id: doc.id });
       });
-      return timesArray;
+      setBestTimes(timesArray);
     });
-    return thedata;
   };
 
   // monitors found statuses to declare game over and sets state from false to true
@@ -116,14 +120,15 @@ function App() {
       const score = timer;
       //handleBestTimes(score);
       //// create db push for time
-      pushTimeToDb(score);
+      pushTimeToDb(score, username);
       ////
       console.log("gameover complete");
     }
-  }, [foundPikachu, foundBagon, foundMew, timer]);
+  }, [foundPikachu, foundBagon, foundMew, timer, username]);
 
   return (
     <div>
+      <Username handleUsernameChange={handleUsernameChange} />
       <Title
         x={x}
         y={y}
